@@ -1,5 +1,7 @@
 import argparse
 import random 
+import asyncio
+from nats.aio.client import Client as NATS
 
 class InfraredSensor:
     def __init__(self, sensor_type, min_value, max_value):
@@ -13,7 +15,20 @@ class InfraredSensor:
         else:
             # Aquí se implementaría la lectura de un sensor real
             return [0] * 64  # Simulamos con ceros por ahora
+        
+async def main(sensor_type, frequency, min_value, max_value):
+    nats_client = NATS()
+    await nats_client.connect(servers=["nats://localhost:4222"])
 
+    sensor = InfraredSensor(sensor_type, min_value, max_value)
+    
+    async def publish_data():
+        while True:
+            data = sensor.read_data()
+            await nats_client.publish("sensor.data", str(data).encode())
+            await asyncio.sleep(frequency)
+
+    await publish_data()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Infrared Sensor Data Publisher")
@@ -24,6 +39,5 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-    sensor = InfraredSensor(args.sensor_type, args.min_value, args.max_value)
-    data = sensor.read_data()
-    print(data)
+    asyncio.run(main(args.sensor_type, args.frequency, args.min_value, args.max_value))
+
