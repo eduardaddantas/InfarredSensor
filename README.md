@@ -24,3 +24,13 @@ Para ejecutar la aplicación con los parámetros predeterminados, usa:
 ```bash
 python infrared_sensor.py
 ```
+
+## Ejecución de Testes
+
+### Comandos
+
+Para ejecutar los testes, usa:
+
+```bash
+python -m unittest "test_infrared_sensor.py"
+```
