@@ -1,4 +1,19 @@
 import argparse
+import random 
+
+class InfraredSensor:
+    def __init__(self, sensor_type, min_value, max_value):
+        self.sensor_type = sensor_type
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def read_data(self):
+        if self.sensor_type == 'mockup':
+            return [random.randint(self.min_value, self.max_value) for _ in range(64)]
+        else:
+            # Aquí se implementaría la lectura de un sensor real
+            return [0] * 64  # Simulamos con ceros por ahora
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Infrared Sensor Data Publisher")
@@ -9,7 +24,6 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-    print(f"Sensor Type: {args.sensor_type}")
-    print(f"Frequency: {args.frequency} seconds")
-    print(f"Min Value: {args.min_value}")
-    print(f"Max Value: {args.max_value}")
+    sensor = InfraredSensor(args.sensor_type, args.min_value, args.max_value)
+    data = sensor.read_data()
+    print(data)
