@@ -4,6 +4,7 @@ Para instalar las dependencias, ejecute:
 
 ```bash
 pip install -r requirements.txt
+```
 
 ## Cómo Ejecutar
 
@@ -20,5 +21,6 @@ La aplicación puede configurarse con los siguientes parámetros de línea de co
 
 Para ejecutar la aplicación con los parámetros predeterminados, usa:
 
-```sh
+```bash
 python infrared_sensor.py
+```
